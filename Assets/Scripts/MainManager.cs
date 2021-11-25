@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
@@ -11,11 +12,17 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text ScoreText1;
+
     public GameObject GameOverText;
     
     private bool m_Started = false;
     private int m_Points;
-    
+    private int m_MaxPoints;
+
+    public string playerName;
+    public string maxPlayerName;
+
     private bool m_GameOver = false;
 
     
@@ -26,6 +33,17 @@ public class MainManager : MonoBehaviour
         int perLine = Mathf.FloorToInt(4.0f / step);
         
         int[] pointCountArray = new [] {1,1,2,2,5,5};
+        ScoreManager.Instance.LoadPlayerData();
+        m_MaxPoints = ScoreManager.Instance.maxPoints;
+        playerName = ScoreManager.Instance.playerName;
+
+        if (m_MaxPoints == 0)
+        {
+            maxPlayerName = playerName;
+        }
+
+        ScoreText1.text = "Best Score: " +ScoreManager.Instance.maxPlayerName + ": " + m_MaxPoints;
+
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -70,7 +88,27 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (m_Points > m_MaxPoints)
+        {
+            m_MaxPoints = m_Points;
+            maxPlayerName = playerName;
+            ScoreManager.Instance.maxPlayerName = maxPlayerName;
+            ScoreText1.text = "Best Score: " + ScoreManager.Instance.playerName + ": " + m_MaxPoints;
+
+        }
+        
+        ScoreManager.Instance.maxPoints = m_MaxPoints;
+      
+        ScoreManager.Instance.SavePlayerData();
+        
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    
 }
