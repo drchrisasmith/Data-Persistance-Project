@@ -36,6 +36,7 @@ public class MainManager : MonoBehaviour
         ScoreManager.Instance.LoadPlayerData();
         m_MaxPoints = ScoreManager.Instance.maxPoints;
         playerName = ScoreManager.Instance.playerName;
+        ScoreText.text = playerName + " Score : " + m_Points;
 
         if (m_MaxPoints == 0)
         {
@@ -83,7 +84,8 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        //ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = playerName + " Score : " +  m_Points;
     }
 
     public void GameOver()

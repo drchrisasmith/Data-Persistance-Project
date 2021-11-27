@@ -19,7 +19,7 @@ public class NameTransfer : MonoBehaviour
     {
         theName = inputField.GetComponent<Text>().text; //setting theName string variable to the value of the inputField
         ScoreManager.Instance.playerName = theName;
-        textDisplay.GetComponent<Text>().text = "Welcome to the game " + theName; //displaying the message in the text field
+        textDisplay.GetComponent<Text>().text = "Good Luck " + theName; //displaying the message in the text field
         StartCoroutine(DelayCoroutine());
         
     }
